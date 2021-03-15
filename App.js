@@ -1,14 +1,67 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar'
+import React, { useState } from 'react'
+import { Card, ListItem, Button, Icon, ThemeProvider } from 'react-native-elements'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { StyleSheet, Text, View, Image, Dimensions } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import AddPlant from './components/AddPlant'
+
+const HomeScreen = ({ navigation }) => {
+  return (
+    <>
+      <Text>Olen etusivu</Text>
+      <Button
+        title="Lisää kasvi"
+        onPress={() => navigation.navigate('Lisää kasvi', { screen: 'Löydetyt sensorit' })}
+      />
+    </>
+  )
+}
 
 export default function App() {
+
+  const [isAddPlant, setIsAddPlant] = useState(false)
+
+  const colors = {
+    light: 'rgb(52,174,113)',
+    dark: 'rgb(76,99,47)',
+  }
+
+  const theme = {
+    Button: {
+      containerStyle: {
+        backgroundColor: colors.light
+      }
+    },
+  }
+
+  const RootStack = createStackNavigator()
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <SafeAreaProvider>
+      <StatusBar style="light" backgroundColor={colors.light}/>
+      <ThemeProvider theme={theme}>
+        <NavigationContainer>
+          <RootStack.Navigator mode="modal" initialRouteName="Etusivu">
+            <RootStack.Screen name="Etusivu" component={HomeScreen} />
+            <RootStack.Screen
+              name="Lisää kasvi"
+              component={AddPlant}
+              options={{
+                headerStyle: {
+                  backgroundColor: colors.light,
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
+              }} />
+          </RootStack.Navigator>
+        </NavigationContainer>
+      </ThemeProvider>
+    </SafeAreaProvider>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -18,4 +71,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-});
+  stretch: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height / 2,
+    resizeMode: 'stretch',
+  },
+})
+
+
+// <View style={styles.container}>
+//   <StatusBar style="light" backgroundColor={colors.light}/>
+//
+//   {true ? <AddPlant/> :
+//     <>
+//       <Button
+//         title="Lisää kasvi"
+//         onPress={setIsAddPlant}
+//       />
+//     </>
+//   }
+//
+// </View>
