@@ -4,7 +4,7 @@
     "slug": "plantsense",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/plantsense_green.png",
+    "icon": "./assets/plantsense_green_square.png",
     "splash": {
       "image": "./assets/plantsense_green.png",
       "resizeMode": "contain",
@@ -21,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/plantsense_green.png",
+        "foregroundImage": "./assets/plantsense_green_square.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.nikodg.plantsense"
