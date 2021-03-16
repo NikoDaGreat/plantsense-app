@@ -8,9 +8,33 @@ import { createStackNavigator } from '@react-navigation/stack'
 import AddPlant from './components/AddPlant'
 
 const HomeScreen = ({ navigation }) => {
+  const plants = [
+    {
+      "name": "Rahapuu",
+      "state": "Tämä kasvi voi hyvin"
+    }, {
+      "name": "Peikonlehti",
+      "state": "Tämä kasvi tarvitsee kastelua välittömästi"
+    }
+  ]
   return (
     <>
-      <Text>Olen etusivu</Text>
+        {plants.map(function(d){
+          return (
+            <Card containerStyle={{}} wrapperStyle={{}}>
+              <Card.Title>{d.name}</Card.Title>
+              <Card.Divider />
+              <View
+                style={{
+                  position: "relative",
+                  alignItems: "center"
+                }}
+              >
+                <Text>{d.state}</Text>
+              </View>
+            </Card>
+          )
+        })} 
       <Button
         title="Lisää kasvi"
         onPress={() => navigation.navigate('Lisää kasvi', { screen: 'Löydetyt sensorit' })}
@@ -20,8 +44,6 @@ const HomeScreen = ({ navigation }) => {
 }
 
 export default function App() {
-
-  const [isAddPlant, setIsAddPlant] = useState(false)
 
   const colors = {
     light: 'rgb(52,174,113)',
@@ -77,18 +99,3 @@ const styles = StyleSheet.create({
     resizeMode: 'stretch',
   },
 })
-
-
-// <View style={styles.container}>
-//   <StatusBar style="light" backgroundColor={colors.light}/>
-//
-//   {true ? <AddPlant/> :
-//     <>
-//       <Button
-//         title="Lisää kasvi"
-//         onPress={setIsAddPlant}
-//       />
-//     </>
-//   }
-//
-// </View>
