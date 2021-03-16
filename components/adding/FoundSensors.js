@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, Dimensions, Alert, FlatList, TextInput } from 'react-native'
-import { Card, Icon, ListItem, Button, ThemeProvider, SearchBar } from 'react-native-elements'
-import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import { Text, View, Alert } from 'react-native'
+import { Icon, ListItem, Button } from 'react-native-elements'
+import { styles } from '../../style/style'
 
 
 const FoundSensors = ({ navigation }) => {
@@ -50,12 +49,13 @@ const FoundSensors = ({ navigation }) => {
            Saat paritustilan käyttöön, kun painat sensorin nappia.</Text>
             <Button
               title="Kokeile uudestaan"
+              buttonStyle={styles.buttonStyle}
               onPress={() => {setIsSearched(false)}}
             />
           </>
         )  : (
           <>
-            <Text style={styles.baseText}>Lähistöltä löydetyt sensorit:</Text>
+            <Text style={styles.promptText}>Lähistöltä löydetyt sensorit:</Text>
             {
               sensorit.map((e, i) => (
                 <ListItem
@@ -64,7 +64,7 @@ const FoundSensors = ({ navigation }) => {
                   topDivider
                 >
 
-                  <Text style={styles.titleText}>
+                  <Text style={styles.smallBoldText}>
                     {e.name}{'\n'}
                     {Math.floor(Math.random() * 41) + 60}%
                     <Icon
@@ -74,8 +74,11 @@ const FoundSensors = ({ navigation }) => {
                       color="black"
                     />
                   </Text>
-
-                  <Button title={'Yhdistä'} onPress={() => connectSensorAlert(e)} />
+                  <Button
+                    title={'Yhdistä'}
+                    buttonStyle={styles.buttonStyle}
+                    onPress={() => connectSensorAlert(e)}
+                  />
 
                 </ListItem>
 
@@ -90,22 +93,5 @@ const FoundSensors = ({ navigation }) => {
   )
 }
 
-const styles = StyleSheet.create({
-  baseText: {
-    fontSize: 19,
-    fontFamily: 'Roboto',
-    margin: Dimensions.get('window').width / 13
-  },
-  titleText: {
-    fontSize: 16,
-    fontWeight: 'bold'
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
 
 export default FoundSensors
