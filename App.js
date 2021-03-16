@@ -8,9 +8,36 @@ import { createStackNavigator } from '@react-navigation/stack'
 import AddPlant from './components/AddPlant'
 
 const HomeScreen = ({ navigation }) => {
+  const plants = [
+    {
+      "name": "Rahapuu",
+      "state": "Tämä kasvi voi hyvin"
+    }, {
+      "name": "Peikonlehti",
+      "state": "Tämä kasvi tarvitsee kastelua välittömästi"
+    }
+  ]
   return (
     <>
-      <Text>Olen etusivu</Text>
+      <div>
+        {plants.map(function(d){
+          return (
+          <div>
+            <Card containerStyle={{}} wrapperStyle={{}}>
+              <Card.Title>{d.name}</Card.Title>
+              <Card.Divider />
+              <View
+                style={{
+                  position: "relative",
+                  alignItems: "center"
+                }}
+              >
+                <Text>{d.state}</Text>
+              </View>
+            </Card>
+          </div>)
+        })} 
+      </div>
       <Button
         title="Lisää kasvi"
         onPress={() => navigation.navigate('Lisää kasvi', { screen: 'Löydetyt sensorit' })}
