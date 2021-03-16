@@ -8,6 +8,8 @@
 
 Mock prototype app for the course SCI-C1002 User-centered Product Development Project run by Aalto University.
 
+Expo available [here](https://expo.io/@nikodg/plantsense).
+
 ### Implementation
 
 * React Native with Expo
