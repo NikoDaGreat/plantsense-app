@@ -1,23 +1,33 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, Dimensions, Alert, FlatList, TextInput } from 'react-native'
-import { Card, Icon, ListItem, Button, ThemeProvider, SearchBar } from 'react-native-elements'
-import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import { Text, View, FlatList } from 'react-native'
+import { SearchBar } from 'react-native-elements'
+// import axios from 'axios'
+import { styles } from '../../style/style'
+import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
 
 
 const PlantSearch = ({ navigation }) => {
 
-  // const fs = require('fs')
-  // fs.readFile('../../kasvilista.txt', (text) => {
-  //   const plantList = text.toString('utf-8').split('\n')
-  // })
   const plantList = ['Peikonlehti', 'Rahapuu', 'Herttaköynnösvehka', 'Posliinikukka', 'Yönkuningatar']
+  const AbortController = window.AbortController // Abort DOM API for non browsers
 
   const [state, setState] = useState( {
     data: plantList,
     filter: '',
     name: '',
+    controller: new AbortController()
   })
+
+  // useEffect(() => {
+  //   const controller = new AbortController()
+  //   const signal = controller.signal
+  //   setFetchRes('fetch request created')
+  //   hitApi(signal).then((res) => {
+  //     setFetchRes(res)
+  //   })
+  //   //cleanup function
+  //   return () => {controller.abort()}
+  // }, [fetchClick])
 
 
   const handleSelectPlant = ( plant ) => {
@@ -39,49 +49,66 @@ const PlantSearch = ({ navigation }) => {
     )
   }
 
-  const renderHeader = () => {
-    return (
-      <SearchBar
-        lightTheme
-        inputStyle={{ backgroundColor: 'white' }}
-        inputContainerStyle={{ backgroundColor: 'white', borderWidth: 1, borderRadius: 5 }}
-        placeholder="Kirjoita tähän"
-        round
-        onChangeText={ (text) => { searchFilterFunction(text) }}
-        value={state.filter}
-        autoFocus={true}
-      />
-    )
-  }
-
   const searchFilterFunction = async ( text ) => {
-    // sais REST :D `https://api.finto.fi/rest/v1/search?vocab=kassu&query=${input}*&lang=fi`
-    const newData = plantList.filter(e => e.toLowerCase().includes(text.toLowerCase()))
-    setState({
-      filter: text,
-      data: newData,
+    // REST API :Dd
+    // Abort previous fetches and null abort state
+    //console.log('controller:', state.controller)
+    state.controller.abort()
+
+    await setState({
+      controller: new AbortController(),
     })
+
+    const url = `https://api.finto.fi/rest/v1/search?vocab=kassu&query=${text}*&lang=fi&maxhits=10`
+    fetch(url, state.controller.signal)
+      .then((response) => response.json())
+      .then((data) => {
+        const newData = data.results.map( e => e.prefLabel )
+        setState({
+          data: newData,
+        })
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+
+    // const newData = plantList.filter(e => e.toLowerCase().includes(text.toLowerCase()))
   }
 
   return (
     <>
       <View style={styles.container}>
 
-        <Text style={styles.baseText}>Valitse kasvisi laji alle olevista vaihtoehdoista:</Text>
+        <Text style={styles.promptText}>Valitse kasvisi laji alla olevista vaihtoehdoista:</Text>
 
         <View style={styles.searchStyle}>
+          <SearchBar
+            lightTheme
+            platform="android"
+            inputStyle={{ backgroundColor: 'white' }}
+            inputContainerStyle={{ backgroundColor: 'white', borderWidth: 1, borderRadius: 5 }}
+            placeholder="Kirjoita tähän"
+            round
+            onChangeText={ (text) => { setState({
+              filter: text,
+            })
+            searchFilterFunction(text) }}
+            value={state.filter}
+            autoFocus={true}
+          />
           <FlatList
             data={state.data}
             renderItem={({ item }) => (
               <Text
                 style={styles.listText}
-                onPress={() => { handleSelectPlant(item) }} >
+                onPress={() => { handleSelectPlant(item) }}
+              >
                 {item}
               </Text>
             )}
             keyExtractor={item => item}
             ItemSeparatorComponent={renderSeparator}
-            ListHeaderComponent={renderHeader}
+
           />
         </View>
 
@@ -91,33 +118,5 @@ const PlantSearch = ({ navigation }) => {
   )
 }
 
-const styles = StyleSheet.create({
-  baseText: {
-    fontSize: 19,
-    fontFamily: 'Roboto',
-    margin: Dimensions.get('window').width / 13
-  },
-  titleText: {
-    fontSize: 16,
-    fontWeight: 'bold'
-  },
-  listText: {
-    fontSize: 17,
-    fontFamily: 'Roboto',
-    margin: 10
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  searchStyle: {
-    justifyContent: 'center', flex: 1,
-    width: Dimensions.get('window').width,
-    backgroundColor: '#F6F6F6',
-    marginTop: 29,
-  }
-})
 
 export default PlantSearch
