@@ -10,6 +10,8 @@ import { styles, colors } from './style/style'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Notifications from 'expo-notifications'
 import Constants from 'expo-constants'
+import * as BackgroundFetch from "expo-background-fetch"
+import * as TaskManager from "expo-task-manager"
 import './globals.js'
 
 const getAllKeys = async () => {
@@ -70,6 +72,7 @@ const removeValue = async (key: string) => {
 
 const clearAll = async () => {
   try {
+    plants = []
     await AsyncStorage.clear()
   } catch(e) {
     // clear error
@@ -85,8 +88,8 @@ const p2 = {'name': 'PJ', 'species': 'Peikonlehti', 'state': 0 };
 function updatePlantStates() {
   plants.map(function(p) {
     const currentTime = Math.floor(new Date().getTime() / 1000)
-    p.state = Math.max(0, 50 - (currentTime - p.initTime))
-    console.log(p.name + ' ' + p.state)
+    p.state = Math.max(0, defaultPlantState - (currentTime - p.initTime))
+    console.log(p.name + ', kosteus ' + p.state)
     if(p.state <= p.notificationLimit && p.state > 0) {
       schedulePushNotification(p.name + ' tarvitsee vettä (mullan kosteus ' + p.state + ')')
       p.notificationLimit -= Math.max(0, p.notificationLimit - 10)
@@ -98,11 +101,11 @@ function updatePlantStates() {
 function waterAll() {
   plants.map(function(p) {
     console.log('Kaikki kasteltu')
-    p.state = 50
-    p.notificationLimit = 30
+    p.state = defaultPlantState
+    p.notificationLimit = defaultNotificationLimit
     p.initTime = Math.floor(new Date().getTime() / 1000)
     storeData(p.name, p)
-    console.log(p.name + ' ' + p.state)
+    console.log(p.name + ', kosteus ' + p.state)
   })
 }
 
@@ -111,9 +114,29 @@ setInterval( () => {
   updatePlantStates();
 }, 10000)
 
+// Background functions
+const taskName = 'test-background-fetch';
+
+async function registerTask() {
+  TaskManager.defineTask(taskName, async () => {
+    updatePlantStates();
+    console.log('updating in background');
+    return BackgroundFetch.Result.NewData;
+  });
+  console.log('task defined');
+
+  await BackgroundFetch.registerTaskAsync(taskName, {
+    stopOnTerminate: false,
+    minimumInterval: 1
+  });
+  //console.log(await TaskManager.getRegisteredTasksAsync());
+}
+
+registerTask();
+
 // Set-up app data
-console.log('Main stored: ')
-getAllKeys()
+//console.log('Main stored: ')
+//getAllKeys()
 
 //clearAll()
 getAllPlantsFromStorage()
@@ -121,13 +144,14 @@ getAllPlantsFromStorage()
 
 
 const HomeScreen = ({ navigation }) => {
+  const [plantlist, setPlantlist] = useState(plants)
 
   //const plants = [];
   //console.log('Main: ' + plants)
 
   return (
     <>
-      {plants.map(function(d){
+      {plantlist.map(function(d){
         return (
           <Card key={d.name} containerStyle={{}} wrapperStyle={{}}>
             <Card.Title>{d.name}</Card.Title>
@@ -145,17 +169,27 @@ const HomeScreen = ({ navigation }) => {
       })}
       <Button
         title="Lisää kasvi"
-        onPress={() => navigation.navigate('Lisää kasvi', { screen: 'Löydetyt sensorit' })}
+        onPress={() => {
+          navigation.navigate('Lisää kasvi', { screen: 'Löydetyt sensorit' })
+        }}
         buttonStyle={styles.buttonStyle}
       />
       <Button
         title="Poista kaikki "
-        onPress={() => clearAll()}
+        onPress={() => {
+          clearAll()
+          setPlantlist([])
+        }}
         buttonStyle={styles.buttonStyle}
       />
       <Button
         title="Kastele kaikki "
         onPress={() => waterAll()}
+        buttonStyle={styles.buttonStyle}
+      />
+      <Button
+        title="Päivitä"
+        onPress={() => {setPlantlist(plants)}}
         buttonStyle={styles.buttonStyle}
       />
     </>
