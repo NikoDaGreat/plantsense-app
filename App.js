@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar'
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Card, Button } from 'react-native-elements'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Text, View } from 'react-native'
@@ -8,6 +8,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 import AddPlant from './components/AddPlant'
 import { styles, colors } from './style/style'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as Notifications from 'expo-notifications'
+import Constants from 'expo-constants'
 import './globals.js'
 
 const getAllKeys = async () => {
@@ -79,23 +81,42 @@ const clearAll = async () => {
 const p1 = {'name': 'JP', 'species': 'Rahapuu', 'state': 0 };
 const p2 = {'name': 'PJ', 'species': 'Peikonlehti', 'state': 0 };
 
+
+function updatePlantStates() {
+  plants.map(function(p) {
+    const currentTime = Math.floor(new Date().getTime() / 1000)
+    p.state = Math.max(0, 50 - (currentTime - p.initTime))
+    console.log(p.name + ' ' + p.state)
+    if(p.state <= p.notificationLimit && p.state > 0) {
+      schedulePushNotification(p.name + ' tarvitsee vettä (mullan kosteus ' + p.state + ')')
+      p.notificationLimit -= Math.max(0, p.notificationLimit - 10)
+    }
+    storeData(p.name, p)
+  })
+}
+
+function waterAll() {
+  plants.map(function(p) {
+    console.log('Kaikki kasteltu')
+    p.state = 50
+    p.notificationLimit = 30
+    p.initTime = Math.floor(new Date().getTime() / 1000)
+    storeData(p.name, p)
+    console.log(p.name + ' ' + p.state)
+  })
+}
+
+
+setInterval( () => {
+  updatePlantStates();
+}, 10000)
+
+// Set-up app data
 console.log('Main stored: ')
 getAllKeys()
 
 //clearAll()
 getAllPlantsFromStorage()
-
-function updatePlantStates() {
-  plants.map(function(p) {
-    const currentTime = Math.floor(new Date().getTime() / 1000)
-    p.state = Math.max(0, 100 - (currentTime - p.initTime))
-    console.log(p.name + ' ' + p.state)
-  })
-}
-
-setInterval( () => {
-  updatePlantStates();
-}, 10000)
 
 
 
@@ -132,12 +153,38 @@ const HomeScreen = ({ navigation }) => {
         onPress={() => clearAll()}
         buttonStyle={styles.buttonStyle}
       />
+      <Button
+        title="Kastele kaikki "
+        onPress={() => waterAll()}
+        buttonStyle={styles.buttonStyle}
+      />
     </>
   )
 }
 
 
 export default function App() {
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response);
+    });
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener);
+      Notifications.removeNotificationSubscription(responseListener);
+    };
+  }, []);
 
   const RootStack = createStackNavigator()
 
@@ -176,4 +223,54 @@ export default function App() {
 
     </SafeAreaProvider>
   )
+}
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
+async function schedulePushNotification(msg) {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "Plantsense",
+      body: msg,
+      data: { data: 'goes here' },
+    },
+    trigger: null,
+  });
+}
+
+async function registerForPushNotificationsAsync() {
+  let token;
+  if (Constants.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  return token;
 }

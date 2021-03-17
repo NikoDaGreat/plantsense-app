@@ -38,6 +38,7 @@ const FoundSensors = ({ navigation }) => {
     console.log(`${sensor.name} Pressed`)
     plantToAdd.sensor = sensor.name
     plantToAdd.state = 100
+    plantToAdd.notificationLimit = 30
     plantToAdd.initTime = Math.floor(new Date().getTime() / 1000)
     console.log('Modified: ' + JSON.stringify(plantToAdd))
     navigation.push('Kasvihaku')

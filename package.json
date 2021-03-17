@@ -16,6 +16,7 @@
     "@react-navigation/stack": "^5.14.3",
     "abortcontroller-polyfill": "^1.7.1",
     "expo": "^40.0.1",
+    "expo-notifications": "~0.8.2",
     "expo-status-bar": "~1.0.3",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
