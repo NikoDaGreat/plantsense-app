@@ -2,7 +2,18 @@ import React, { useState } from 'react'
 import { Text, View, Alert, TextInput } from 'react-native'
 import { Button } from 'react-native-elements'
 import { styles } from '../../style/style'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import '../../globals.js'
 
+const storeData = async (key, value) => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem(key, jsonValue);
+    console.log('stored ' + key);
+  } catch (e) {
+    // error
+  }
+}
 
 const NamePlant = ({ navigation }) => {
 
@@ -13,6 +24,12 @@ const NamePlant = ({ navigation }) => {
   const handleNamePlant = ( ) => {
     // tallenna kasvin lempinimi ja poistu etusivulle
     console.log(`Valittu lempinimi ${state.name}`)
+    plantToAdd.name = state.name
+    plants.push(plantToAdd)
+    storeData(state.name, plantToAdd)
+    plantToAdd = {};
+    console.log(plants)
+    console.log('Modified: ' + JSON.stringify(plantToAdd))
 
     Alert.alert(
       'Onnistui!',

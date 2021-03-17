@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Text, View, Alert } from 'react-native'
 import { Icon, ListItem, Button } from 'react-native-elements'
 import { styles } from '../../style/style'
+import '../../globals.js'
 
 
 const FoundSensors = ({ navigation }) => {
@@ -35,6 +36,9 @@ const FoundSensors = ({ navigation }) => {
   const handleConnect = ( sensor ) => {
     // tallenna sensori käytetyksi ja siirry kasvin valintaan
     console.log(`${sensor.name} Pressed`)
+    plantToAdd.sensor = sensor.name
+    plantToAdd.state = 10
+    console.log('Modified: ' + JSON.stringify(plantToAdd))
     navigation.push('Kasvihaku')
   }
 

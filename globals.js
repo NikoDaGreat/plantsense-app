@@ -1,0 +1,2 @@
+global.plantToAdd = {};
+global.plants = [];

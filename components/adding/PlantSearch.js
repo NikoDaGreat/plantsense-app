@@ -4,6 +4,7 @@ import { SearchBar } from 'react-native-elements'
 // import axios from 'axios'
 import { styles } from '../../style/style'
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
+import '../../globals.js'
 
 
 const PlantSearch = ({ navigation }) => {
@@ -33,6 +34,8 @@ const PlantSearch = ({ navigation }) => {
   const handleSelectPlant = ( plant ) => {
     // tallenna kasvi käytetyksi ja kysy lempinimeä
     console.log(`Painettu tekstiä ${plant}`)
+    plantToAdd.species = plant
+    console.log('Modified: ' + JSON.stringify(plantToAdd))
     navigation.push('Nimeä kasvi')
   }
 
