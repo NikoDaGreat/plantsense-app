@@ -45,11 +45,13 @@ const HomeScreen = ({ navigation }) => {
             </TouchableOpacity>)
         })}
       </View>
-      <Button
-        title="Lisää kasvi"
-        onPress={() => navigation.navigate('Lisää kasvi', { screen: 'Löydetyt sensorit' })}
-        buttonStyle={styles.buttonStyle}
-      />
+      <View style={{ marginTop: 10, padding: 15 }}>
+        <Button
+          title="Lisää kasvi"
+          onPress={() => navigation.navigate('Lisää kasvi', { screen: 'Löydetyt sensorit' })}
+          buttonStyle={styles.buttonStyle}
+        />
+      </View>
     </>
   )
 }
