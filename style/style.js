@@ -25,6 +25,10 @@ export const styles = StyleSheet.create({
     fontFamily: 'Roboto',
     margin: Dimensions.get('window').width / 13
   },
+  plantText: {
+    fontSize: 19,
+    // fontFamily: 'Roboto',
+  },
   promptText: {
     fontSize: 28,
     color: colors.light,

@@ -3,7 +3,6 @@ import { Text, View, FlatList } from 'react-native'
 import { SearchBar } from 'react-native-elements'
 // import axios from 'axios'
 import { styles } from '../../style/style'
-import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
 
 
 const PlantSearch = ({ navigation }) => {

@@ -1,17 +1,15 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Dimensions } from 'react-native'
 import { VictoryLine,
   VictoryChart,
-  VictoryVoronoiContainer,
   VictoryTooltip,
-  VictoryZoomContainer,
   VictoryScatter,
   VictoryGroup,
   VictoryTheme,
   VictoryAxis,
   VictoryLabel,
   createContainer } from 'victory-native'
-import { styles, colors } from '../style/style'
+import { colors } from '../style/style'
 
 
 const PlantPlot = ({ data }) => {
@@ -26,6 +24,7 @@ const PlantPlot = ({ data }) => {
     <>
       <VictoryChart
         theme={VictoryTheme.material}
+        width={Dimensions.get('window').width * 0.93}
         containerComponent={
           <GivenVictoryContainers label={d => `${d.label}`} />
         }
@@ -58,7 +57,7 @@ const PlantPlot = ({ data }) => {
             style={{
               data: {
                 stroke: colors.light,
-                strokeWidth: 3
+                strokeWidth: 4.5
               }
             }}
             interpolation='natural'
