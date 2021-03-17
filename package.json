@@ -1,5 +1,7 @@
 {
   "main": "node_modules/expo/AppEntry.js",
+  "description": "Hoida kasveja paremmin sensoreilla!",
+  "author": "Ryhmä 19",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
