@@ -20,10 +20,10 @@ const HomeScreen = ({ navigation }) => {
   ]
   return (
     <>
-      <div>
+      <View>
         {plants.map(function(d){
           return (
-          <div onClick={ () => navigation.navigate('Yhden kasvin sivu') }>
+          <View onClick={ () => navigation.navigate('Yhden kasvin sivu') }>
             <Card containerStyle={{}} wrapperStyle={{}} >
               <Card.Title>{d.name}</Card.Title>
               <Card.Divider />
@@ -36,9 +36,9 @@ const HomeScreen = ({ navigation }) => {
                 <Text>{d.state}</Text>
               </View>
             </Card>
-          </div>)
+          </View>)
         })} 
-      </div>
+      </View>
       <Button
         title="Lisää kasvi"
         onPress={() => navigation.navigate('Lisää kasvi', { screen: 'Löydetyt sensorit' })}
