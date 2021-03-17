@@ -66,13 +66,38 @@ const removeValue = async (key: string) => {
   console.log('Removed ' + key)
 }
 
+const clearAll = async () => {
+  try {
+    await AsyncStorage.clear()
+  } catch(e) {
+    // clear error
+  }
+
+  console.log('Cleared all plants')
+}
+
 const p1 = {'name': 'JP', 'species': 'Rahapuu', 'state': 0 };
 const p2 = {'name': 'PJ', 'species': 'Peikonlehti', 'state': 0 };
 
 console.log('Main stored: ')
 getAllKeys()
 
+//clearAll()
 getAllPlantsFromStorage()
+
+function updatePlantStates() {
+  plants.map(function(p) {
+    const currentTime = Math.floor(new Date().getTime() / 1000)
+    p.state = Math.max(0, 100 - (currentTime - p.initTime))
+    console.log(p.name + ' ' + p.state)
+  })
+}
+
+setInterval( () => {
+  updatePlantStates();
+}, 10000)
+
+
 
 const HomeScreen = ({ navigation }) => {
 
@@ -100,6 +125,11 @@ const HomeScreen = ({ navigation }) => {
       <Button
         title="Lisää kasvi"
         onPress={() => navigation.navigate('Lisää kasvi', { screen: 'Löydetyt sensorit' })}
+        buttonStyle={styles.buttonStyle}
+      />
+      <Button
+        title="Poista kaikki "
+        onPress={() => clearAll()}
         buttonStyle={styles.buttonStyle}
       />
     </>

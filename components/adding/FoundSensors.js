@@ -37,7 +37,8 @@ const FoundSensors = ({ navigation }) => {
     // tallenna sensori käytetyksi ja siirry kasvin valintaan
     console.log(`${sensor.name} Pressed`)
     plantToAdd.sensor = sensor.name
-    plantToAdd.state = 10
+    plantToAdd.state = 100
+    plantToAdd.initTime = Math.floor(new Date().getTime() / 1000)
     console.log('Modified: ' + JSON.stringify(plantToAdd))
     navigation.push('Kasvihaku')
   }
