@@ -1,0 +1,58 @@
+import { StyleSheet, Dimensions } from 'react-native'
+
+export const colors = {
+  light: 'rgb(52,174,113)',
+  dark: 'rgb(76,99,47)',
+}
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  stretch: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height / 2,
+    resizeMode: 'stretch',
+  },
+  baseText: {
+    fontSize: 19,
+    fontFamily: 'Roboto',
+    margin: Dimensions.get('window').width / 13
+  },
+  promptText: {
+    fontSize: 28,
+    color: colors.light,
+    fontFamily: 'sans-serif-medium',
+    fontWeight: 'bold',
+    margin: Dimensions.get('window').width / 13
+  },
+  smallBoldText: {
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
+  listText: {
+    fontSize: 17,
+    fontFamily: 'Roboto',
+    margin: 10
+  },
+  textInput: {
+    height: 40,
+    width: Dimensions.get('window').width / 2.7,
+    fontSize: 17,
+    fontWeight: 'bold',
+    margin: 20,
+    paddingLeft: 6
+  },
+  searchStyle: {
+    justifyContent: 'center', flex: 1,
+    width: Dimensions.get('window').width,
+    backgroundColor: '#F6F6F6',
+    marginTop: 29,
+  },
+  buttonStyle: {
+    backgroundColor: colors.light
+  },
+})

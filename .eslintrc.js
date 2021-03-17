@@ -21,6 +21,7 @@ module.exports = {
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'import/prefer-default-export': 0,
+    'no-unused-vars': 1, // no unnecessary imports either
     'global-require': 0,
     indent: [
       'error',

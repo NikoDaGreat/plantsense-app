@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "plantsense",
+    "name": "Plantsense",
     "slug": "plantsense",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/plantsense_green.png",
+    "icon": "./assets/plantsense_icon.png",
     "splash": {
       "image": "./assets/plantsense_green.png",
       "resizeMode": "contain",
@@ -20,14 +20,10 @@
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/plantsense_green.png",
-        "backgroundColor": "#FFFFFF"
-      },
       "package": "com.nikodg.plantsense"
     },
     "web": {
-      "favicon": "./assets/plantsense_green.png"
+      "favicon": "./assets/plantsense_icon.png"
     }
   }
 }

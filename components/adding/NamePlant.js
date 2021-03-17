@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, Dimensions, Alert, FlatList, TextInput } from 'react-native'
-import { Card, Icon, ListItem, Button, ThemeProvider, SearchBar } from 'react-native-elements'
+import { Text, View, Alert, TextInput } from 'react-native'
+import { Button } from 'react-native-elements'
+import { styles } from '../../style/style'
+
 
 const NamePlant = ({ navigation }) => {
 
-  const [state, setState] = useState( {
+  const [state, setState] = useState({
     name: '',
   })
-
 
   const handleNamePlant = ( ) => {
     // tallenna kasvin lempinimi ja poistu etusivulle
@@ -21,9 +22,7 @@ const NamePlant = ({ navigation }) => {
       ]
     )
 
-    // etusivulle ->
-    navigation.navigate('Etusivu')
-    // navigation.popToTop() // first screen in the stack.
+    navigation.navigate('Etusivu')  // etusivulle ->
   }
 
 
@@ -32,8 +31,7 @@ const NamePlant = ({ navigation }) => {
     <>
       <View style={styles.container}>
 
-
-        <Text style={styles.baseText}>Anna kasvillesi lempinimi</Text>
+        <Text style={styles.promptText}>Anna kasvillesi lempinimi</Text>
         <TextInput
           style={styles.textInput}
           onChangeText={ (text) => {setState({ name: text })} }
@@ -43,7 +41,7 @@ const NamePlant = ({ navigation }) => {
         />
         <Button
           title="Hyväksy"
-          color="green"
+          buttonStyle={styles.buttonStyle}
           onPress={() => {handleNamePlant()}}
         />
 
@@ -53,26 +51,5 @@ const NamePlant = ({ navigation }) => {
   )
 }
 
-const styles = StyleSheet.create({
-  baseText: {
-    fontSize: 19,
-    fontFamily: 'Roboto',
-    margin: Dimensions.get('window').width / 13
-  },
-  textInput: {
-    height: 40,
-    width: Dimensions.get('window').width / 2.7,
-    fontSize: 17,
-    fontWeight: 'bold',
-    margin: 20,
-    paddingLeft: 6
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
 
 export default NamePlant
