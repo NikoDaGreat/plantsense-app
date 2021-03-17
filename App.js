@@ -6,6 +6,7 @@ import { StyleSheet, Text, View, Image, Dimensions } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import AddPlant from './components/AddPlant'
+import SinglePlant from './components/SinglePlant'
 
 const HomeScreen = ({ navigation }) => {
   const plants = [
@@ -22,8 +23,8 @@ const HomeScreen = ({ navigation }) => {
       <div>
         {plants.map(function(d){
           return (
-          <div>
-            <Card containerStyle={{}} wrapperStyle={{}}>
+          <div onClick={ () => navigation.navigate('Yhden kasvin sivu') }>
+            <Card containerStyle={{}} wrapperStyle={{}} >
               <Card.Title>{d.name}</Card.Title>
               <Card.Divider />
               <View
@@ -72,6 +73,7 @@ export default function App() {
         <NavigationContainer>
           <RootStack.Navigator mode="modal" initialRouteName="Etusivu">
             <RootStack.Screen name="Etusivu" component={HomeScreen} />
+            <RootStack.Screen name="Yhden kasvin sivu" component={SinglePlant} />
             <RootStack.Screen
               name="Lisää kasvi"
               component={AddPlant}
