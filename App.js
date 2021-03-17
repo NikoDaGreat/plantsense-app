@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar'
 import React, { useState } from 'react'
 import { Card, Button } from 'react-native-elements'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { Text, View } from 'react-native'
+import { Text, View, TouchableOpacity } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import AddPlant from './components/AddPlant'
@@ -27,27 +27,31 @@ const HomeScreen = ({ navigation }) => {
       <View>
         {plants.map(function(d){
           return (
-          <View onClick={ () => navigation.navigate('Yhden kasvin sivu') }>
-            <Card key={d.name} containerStyle={{}} wrapperStyle={{}} >
-              <Card.Title>{d.name}</Card.Title>
-              <Card.Divider />
-              <View
-                style={{
-                  position: "relative",
-                  alignItems: "center"
-                }}
-              >
-                <Text>{d.state}</Text>
-              </View>
-            </Card>
-          </View>)
-        })} 
+            <TouchableOpacity key={d.name}
+              onPress={ () => navigation.navigate('Yksittäinen kasvi', {
+                name: `${d.name}`,
+              }) } >
+              <Card containerStyle={{}} wrapperStyle={{}} >
+                <Card.Title>{d.name}</Card.Title>
+                <Card.Divider />
+                <View
+                  style={{
+                    position: 'relative',
+                    alignItems: 'center'
+                  }} >
+                  <Text>{d.state}</Text>
+                </View>
+              </Card>
+            </TouchableOpacity>)
+        })}
       </View>
-      <Button
-        title="Lisää kasvi"
-        onPress={() => navigation.navigate('Lisää kasvi', { screen: 'Löydetyt sensorit' })}
-        buttonStyle={styles.buttonStyle}
-      />
+      <View style={{ marginTop: 10, padding: 15 }}>
+        <Button
+          title="Lisää kasvi"
+          onPress={() => navigation.navigate('Lisää kasvi', { screen: 'Löydetyt sensorit' })}
+          buttonStyle={styles.buttonStyle}
+        />
+      </View>
     </>
   )
 }
@@ -60,35 +64,35 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <StatusBar style="light" backgroundColor={colors.light}/>
-        <NavigationContainer>
-          <RootStack.Navigator mode="modal" initialRouteName="Etusivu">
-            <RootStack.Screen
-              name="Etusivu"
-              component={HomeScreen}
-              options={{
-                headerStyle: {
-                  backgroundColor: colors.light,
-                },
-                headerTintColor: '#fff',
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                },
-              }}/>
-              <RootStack.Screen name="Yhden kasvin sivu" component={SinglePlant} />
-              <RootStack.Screen
-                name="Lisää kasvi"
-                component={AddPlant}
-                options={{
-                  headerStyle: {
-                    backgroundColor: colors.light,
-                  },
-                  headerTintColor: '#fff',
-                  headerTitleStyle: {
-                    fontWeight: 'bold',
-                  },
-                }} />
-          </RootStack.Navigator>
-        </NavigationContainer>
+      <NavigationContainer>
+        <RootStack.Navigator mode="modal" initialRouteName="Etusivu">
+          <RootStack.Screen
+            name="Etusivu"
+            component={HomeScreen}
+            options={{
+              headerStyle: {
+                backgroundColor: colors.light,
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }}/>
+          <RootStack.Screen name="Yksittäinen kasvi" component={SinglePlant} />
+          <RootStack.Screen
+            name="Lisää kasvi"
+            component={AddPlant}
+            options={{
+              headerStyle: {
+                backgroundColor: colors.light,
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }} />
+        </RootStack.Navigator>
+      </NavigationContainer>
     </SafeAreaProvider>
   )
 }
