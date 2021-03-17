@@ -51,11 +51,10 @@ const PlantPlot = ({ data }) => {
         {/* Main plot */}
         <VictoryGroup
           domain={ { y: [0, Math.max(80,  Math.max(...data.map(xy => xy.y)))] } }
-          labelComponent={<VictoryTooltip />}
+          labelComponent={<VictoryTooltip renderInPortal={false} />}
           data={data}
         >
           <VictoryLine
-            label='Aika'
             style={{
               data: {
                 stroke: colors.light,
@@ -75,7 +74,6 @@ const PlantPlot = ({ data }) => {
         { limits.map( (limit, i) =>
           <VictoryLine
             key={i}
-            labelComponent={<VictoryTooltip />}
             interpolation='natural'
             data={limit}
             style={{
