@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import AddPlant from './components/AddPlant'
 import { styles, colors } from './style/style'
+import PlantPlot from './components/PlantPlot'
 
 
 const HomeScreen = ({ navigation }) => {
@@ -20,6 +21,21 @@ const HomeScreen = ({ navigation }) => {
       'state': 'Tämä kasvi tarvitsee kastelua välittömästi'
     }
   ]
+
+  // Unix time x, y in percentage
+  const plotData = [
+    { x: 1615973462 - 7*4 * 3600, y: 50 },
+    { x: 1615973462 - 6*4 * 3600, y: 40 },
+    { x: 1615973462 - 5*4 * 3600, y: 32 },
+    { x: 1615973462 - 4*4 * 3600, y: 15 },
+    { x: 1615973462 - 3*4 * 3600, y: 50 },
+    { x: 1615973462 - 2*4 * 3600, y: 35 },
+    { x: 1615973462 - 4 * 3600, y: 37 },
+    { x: 1615973462, y: 26 }
+  ].map( (point) => {
+    return { ...point, label: `${point.y}%` }
+  })
+
 
   return (
     <>
@@ -44,6 +60,8 @@ const HomeScreen = ({ navigation }) => {
         onPress={() => navigation.navigate('Lisää kasvi', { screen: 'Löydetyt sensorit' })}
         buttonStyle={styles.buttonStyle}
       />
+
+      <PlantPlot data={plotData}/>
     </>
   )
 }
