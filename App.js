@@ -78,6 +78,7 @@ getAllPlantsFromStorage()
 const HomeScreen = ({ navigation }) => {
   const [plantlist, setPlantlist] = useState(plants)
 
+  // Tried to make homescreen update when returned to
   useEffect(
     () => {
       const unsubscribe = navigation.addListener('focus', () => {
@@ -88,11 +89,12 @@ const HomeScreen = ({ navigation }) => {
     [navigation],
   );
 
+  // Update homescreen every 10 seconds
   useEffect(
     () => {
       const intervalId = setInterval(() => {
         setPlantlist(plants)
-      }, 1000);
+      }, 10000);
       return () => clearInterval(intervalId);
     }, 
     [navigation],
