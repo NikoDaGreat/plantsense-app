@@ -36,6 +36,13 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     margin: Dimensions.get('window').width / 13
   },
+  promptTextNoMargin: {
+    fontSize: 28,
+    color: colors.light,
+    fontFamily: 'sans-serif-medium',
+    fontWeight: 'bold',
+    margin: 0
+  },
   smallBoldText: {
     fontSize: 16,
     fontWeight: 'bold'

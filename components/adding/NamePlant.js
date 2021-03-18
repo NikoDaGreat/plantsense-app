@@ -19,13 +19,13 @@ const NamePlant = ({ navigation }) => {
     plantToAdd.name = state.name
     plants.push(plantToAdd)
     storeData(state.name, plantToAdd)
-    plantToAdd = {};
+    plantToAdd = {}
     console.log(plants)
     console.log('Modified: ' + JSON.stringify(plantToAdd))
 
     Alert.alert(
       'Onnistui!',
-      `Tallennettu ${state.name} onnistuneesti 💪`,
+      `Tallennettu ${state.name} onnistuneesti 💪. Kasvi ilmestyy listaan ensimmäisen mittauksen tullessa sensorista (n. 10s).`,
       [
         { text: 'Jiihaa!', onPress: () => {console.log('onnistuttu')} }
       ]

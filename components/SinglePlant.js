@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View } from 'react-native'
-import { Card, Button} from 'react-native-elements'
+import { Card, Button } from 'react-native-elements'
 import PlantPlot from './PlantPlot'
 import { styles } from '../style/style'
 
@@ -31,7 +31,7 @@ const SinglePlant = ({ navigation, route }) => {
 
   return (
     <Card containerStyle={{}} wrapperStyle={{}}>
-      <Card.Title style={styles.promptText}>
+      <Card.Title style={styles.promptTextNoMargin}>
         {plantInfo.name}
       </Card.Title>
       <Card.Divider/>
@@ -40,6 +40,9 @@ const SinglePlant = ({ navigation, route }) => {
       </Text>
       <Text style={styles.plantText}>
         Kosteus: {plantInfo.moisture} %
+        <Text style={{ fontWeight: 'bold' }}>
+          {parseInt(plantInfo.moisture) > 25 ? '' : parseInt(plantInfo.moisture) > 10 ? '  Tarvitsee kastelua' : '  Kastele nyt!'}
+        </Text>
       </Text>
       <Text style={styles.plantText}>
         Yhdistetty sensori: {sensorInfo.serialNumber}
@@ -47,14 +50,14 @@ const SinglePlant = ({ navigation, route }) => {
       <Text style={styles.plantText}>
         Sensorin akku: {sensorInfo.battery}
       </Text>
-      <Button
-        title="Kastele"
-        onPress={() => waterPlant(route.params.plant)}
-        buttonStyle={styles.buttonStyle}
-      />
       <View>
         <PlantPlot data={plotData}/>
       </View>
+      <Button
+        title="Kuittaa kastelu💧"
+        onPress={() => waterPlant(route.params.plant)}
+        buttonStyle={styles.buttonStyle}
+      />
     </Card>
   )
 }
