@@ -2,10 +2,11 @@ import { StatusBar } from 'expo-status-bar'
 import React, { useState, useRef, useEffect } from 'react'
 import { Card, Button } from 'react-native-elements'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { Text, View } from 'react-native'
+import { Text, View, TouchableOpacity } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import AddPlant from './components/AddPlant'
+import SinglePlant from './components/SinglePlant'
 import { styles, colors } from './style/style'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Notifications from 'expo-notifications'
@@ -151,47 +152,34 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <>
-      {plantlist.map(function(d){
-        return (
-          <Card key={d.name} containerStyle={{}} wrapperStyle={{}}>
-            <Card.Title>{d.name}</Card.Title>
-            <Card.Divider />
-            <View
-              style={{
-                position: 'relative',
-                alignItems: 'center'
-              }}
-            >
-              <Text>{d.state}</Text>
-            </View>
-          </Card>
-        )
-      })}
-      <Button
-        title="Lisää kasvi"
-        onPress={() => {
-          navigation.navigate('Lisää kasvi', { screen: 'Löydetyt sensorit' })
-        }}
-        buttonStyle={styles.buttonStyle}
-      />
-      <Button
-        title="Poista kaikki "
-        onPress={() => {
-          clearAll()
-          setPlantlist([])
-        }}
-        buttonStyle={styles.buttonStyle}
-      />
-      <Button
-        title="Kastele kaikki "
-        onPress={() => waterAll()}
-        buttonStyle={styles.buttonStyle}
-      />
-      <Button
-        title="Päivitä"
-        onPress={() => {setPlantlist(plants)}}
-        buttonStyle={styles.buttonStyle}
-      />
+      <View>
+        {plants.map(function(d){
+          return (
+            <TouchableOpacity key={d.name}
+              onPress={ () => navigation.navigate('Yksittäinen kasvi', {
+                name: `${d.name}`,
+              }) } >
+              <Card containerStyle={{}} wrapperStyle={{}} >
+                <Card.Title>{d.name}</Card.Title>
+                <Card.Divider />
+                <View
+                  style={{
+                    position: 'relative',
+                    alignItems: 'center'
+                  }} >
+                  <Text>{d.state}</Text>
+                </View>
+              </Card>
+            </TouchableOpacity>)
+        })}
+      </View>
+      <View style={{ marginTop: 10, padding: 15 }}>
+        <Button
+          title="Lisää kasvi"
+          onPress={() => navigation.navigate('Lisää kasvi', { screen: 'Löydetyt sensorit' })}
+          buttonStyle={styles.buttonStyle}
+        />
+      </View>
     </>
   )
 }
@@ -225,7 +213,6 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <StatusBar style="light" backgroundColor={colors.light}/>
-
       <NavigationContainer>
         <RootStack.Navigator mode="modal" initialRouteName="Etusivu">
           <RootStack.Screen
@@ -240,6 +227,7 @@ export default function App() {
                 fontWeight: 'bold',
               },
             }}/>
+          <RootStack.Screen name="Yksittäinen kasvi" component={SinglePlant} />
           <RootStack.Screen
             name="Lisää kasvi"
             component={AddPlant}
@@ -254,7 +242,6 @@ export default function App() {
             }} />
         </RootStack.Navigator>
       </NavigationContainer>
-
     </SafeAreaProvider>
   )
 }

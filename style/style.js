@@ -6,6 +6,7 @@ export const colors = {
 }
 
 export const styles = StyleSheet.create({
+  /* Views */
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -17,10 +18,16 @@ export const styles = StyleSheet.create({
     height: Dimensions.get('window').height / 2,
     resizeMode: 'stretch',
   },
+
+  /* Texts */
   baseText: {
     fontSize: 19,
     fontFamily: 'Roboto',
     margin: Dimensions.get('window').width / 13
+  },
+  plantText: {
+    fontSize: 19,
+    // fontFamily: 'Roboto',
   },
   promptText: {
     fontSize: 28,
@@ -52,6 +59,8 @@ export const styles = StyleSheet.create({
     backgroundColor: '#F6F6F6',
     marginTop: 29,
   },
+
+  /* Misc. */
   buttonStyle: {
     backgroundColor: colors.light
   },
