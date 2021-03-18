@@ -135,24 +135,6 @@ const HomeScreen = ({ navigation }) => {
           onPress={() => navigation.navigate('Lisää kasvi', { screen: 'Löydetyt sensorit' })}
           buttonStyle={styles.buttonStyle}
         />
-        <Button
-        title="Poista kaikki "
-        onPress={() => {
-          clearAll()
-          setPlantlist([])
-        }}
-        buttonStyle={styles.buttonStyle}
-      />
-      <Button
-        title="Kastele kaikki "
-        onPress={() => waterAll()}
-        buttonStyle={styles.buttonStyle}
-      />
-      <Button
-        title="Päivitä"
-        onPress={() => {setPlantlist(plants)}}
-        buttonStyle={styles.buttonStyle}
-      />
       <Button
         title="Asetukset"
         onPress={() => navigation.navigate('Asetukset', { screen: 'Asetukset' })}
