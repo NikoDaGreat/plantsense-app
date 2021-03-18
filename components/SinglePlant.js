@@ -5,8 +5,8 @@ import PlantPlot from './PlantPlot'
 import { styles } from '../style/style'
 
 function waterPlant(plant) {
-  plant.state = defaultPlantState
-  plant.notificationLimit = defaultNotificationLimit + (Math.random() * 10 - 5)
+  plant.state = defaultPlantState + (Math.random() * 10 - 5)
+  plant.notificationLimit = defaultNotificationLimit
   plant.initTime = Math.floor(new Date().getTime() / 1000)
   //storeData(plant.name, plant)
   console.log(plant.name + ', kosteus ' + plant.state)
