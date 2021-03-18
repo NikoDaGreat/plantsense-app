@@ -21,16 +21,16 @@ export async function getAllPlantsFromStorage() {
     // read key error
   }
   keys.map(async function(k) {
-    const p = await getData(k);
-    plants.push(p);
+    const p = await getData(k)
+    plants.push(p)
   })
 }
 
 
 export async function storeData(key, value) {
   try {
-    const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem(key, jsonValue);
+    const jsonValue = JSON.stringify(value)
+    await AsyncStorage.setItem(key, jsonValue)
     //console.log('stored');
   } catch (e) {
     // error
@@ -41,7 +41,7 @@ export async function getData(key: string) {
   try {
     //console.log('getting timer');
     const jsonValue = await AsyncStorage.getItem(key)
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
+    return jsonValue !== null ? JSON.parse(jsonValue) : null
   } catch(e) {
     // error reading value
   }

@@ -40,7 +40,7 @@ const FoundSensors = ({ navigation }) => {
     plantToAdd.state = Math.round(defaultPlantState + (Math.random() * 10 - 5))
     plantToAdd.notificationLimit = defaultNotificationLimit
     const initialTime = Math.floor(new Date().getTime() / 1000)
-    plantToAdd.initTime = initialTime 
+    plantToAdd.initTime = initialTime
     plantToAdd.sensorData = []
     plantToAdd.sensorData.push({ x: initialTime, y: defaultPlantState })
     console.log('Modified: ' + JSON.stringify(plantToAdd))
@@ -50,7 +50,7 @@ const FoundSensors = ({ navigation }) => {
 
   return (
     <>
-      <View style={styles.container}>
+      <View style={styles.sensorContainer}>
 
         { isSearched ? (
           <>
