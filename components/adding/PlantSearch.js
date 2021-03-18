@@ -51,7 +51,7 @@ const PlantSearch = ({ navigation }) => {
     fetch(url, state.controller.signal)
       .then((response) => response.json())
       .then((data) => {
-        const newData = data.results.map( e => e.prefLabel )
+        const newData = data.results.map( e => e.prefLabel.charAt(0).toUpperCase() + e.prefLabel.slice(1) )
         setState({
           ...state,
           filter: text,

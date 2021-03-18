@@ -13,6 +13,12 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  sensorContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
   stretch: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height / 2,

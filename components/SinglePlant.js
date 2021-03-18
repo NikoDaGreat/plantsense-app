@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, SafeAreaView, ScrollView } from 'react-native'
 import { Card, Button } from 'react-native-elements'
 import PlantPlot from './PlantPlot'
 import { styles } from '../style/style'
@@ -30,35 +30,39 @@ const SinglePlant = ({ navigation, route }) => {
   }
 
   return (
-    <Card containerStyle={{}} wrapperStyle={{}}>
-      <Card.Title style={styles.promptTextNoMargin}>
-        {plantInfo.name}
-      </Card.Title>
-      <Card.Divider/>
-      <Text style={styles.plantText}>
+    <SafeAreaView>
+      <ScrollView>
+        <Card containerStyle={{}} wrapperStyle={{}}>
+          <Card.Title style={styles.promptTextNoMargin}>
+            {plantInfo.name}
+          </Card.Title>
+          <Card.Divider/>
+          <Text style={styles.plantText}>
         Laji: {plantInfo.species}
-      </Text>
-      <Text style={styles.plantText}>
+          </Text>
+          <Text style={styles.plantText}>
         Kosteus: {plantInfo.moisture} %
-        <Text style={{ fontWeight: 'bold' }}>
-          {parseInt(plantInfo.moisture) > 25 ? '' : parseInt(plantInfo.moisture) > 10 ? '  Tarvitsee kastelua' : '  Kastele nyt!'}
-        </Text>
-      </Text>
-      <Text style={styles.plantText}>
+            <Text style={{ fontWeight: 'bold' }}>
+              {parseInt(plantInfo.moisture) > 25 ? '' : parseInt(plantInfo.moisture) > 10 ? '  Tarvitsee kastelua' : '  Kastele nyt!'}
+            </Text>
+          </Text>
+          <Text style={styles.plantText}>
         Yhdistetty sensori: {sensorInfo.serialNumber}
-      </Text>
-      <Text style={styles.plantText}>
+          </Text>
+          <Text style={styles.plantText}>
         Sensorin akku: {sensorInfo.battery}
-      </Text>
-      <View>
-        <PlantPlot data={plotData}/>
-      </View>
-      <Button
-        title="Kuittaa kastelu💧"
-        onPress={() => waterPlant(route.params.plant)}
-        buttonStyle={styles.buttonStyle}
-      />
-    </Card>
+          </Text>
+          <View>
+            <PlantPlot data={plotData}/>
+          </View>
+          <Button
+            title="Kuittaa kastelu💧"
+            onPress={() => waterPlant(route.params.plant)}
+            buttonStyle={styles.buttonStyle}
+          />
+        </Card>
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 
