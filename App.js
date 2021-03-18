@@ -89,12 +89,13 @@ const p2 = {'name': 'PJ', 'species': 'Peikonlehti', 'state': 0 };
 function updatePlantStates() {
   plants.map(function(p) {
     const currentTime = Math.floor(new Date().getTime() / 1000)
-    p.state = Math.max(0, defaultPlantState - (currentTime - p.initTime))
+    p.state = Math.max(0, defaultPlantState - defaultPlantStateRate * (currentTime - p.initTime))
     console.log(p.name + ', kosteus ' + p.state)
     if(p.state <= p.notificationLimit && p.state > 0) {
       schedulePushNotification(p.name + ' tarvitsee vettä (mullan kosteus ' + p.state + ')')
       p.notificationLimit -= Math.max(0, p.notificationLimit - 10)
     }
+    p.sensorData.push({ x: currentTime, y: p.state })
     storeData(p.name, p)
   })
 }
@@ -157,7 +158,7 @@ const HomeScreen = ({ navigation }) => {
           return (
             <TouchableOpacity key={d.name}
               onPress={ () => navigation.navigate('Yksittäinen kasvi', {
-                name: `${d.name}`,
+                plant: d,
               }) } >
               <Card containerStyle={{}} wrapperStyle={{}} >
                 <Card.Title>{d.name}</Card.Title>
@@ -179,6 +180,24 @@ const HomeScreen = ({ navigation }) => {
           onPress={() => navigation.navigate('Lisää kasvi', { screen: 'Löydetyt sensorit' })}
           buttonStyle={styles.buttonStyle}
         />
+        <Button
+        title="Poista kaikki "
+        onPress={() => {
+          clearAll()
+          setPlantlist([])
+        }}
+        buttonStyle={styles.buttonStyle}
+      />
+      <Button
+        title="Kastele kaikki "
+        onPress={() => waterAll()}
+        buttonStyle={styles.buttonStyle}
+      />
+      <Button
+        title="Päivitä"
+        onPress={() => {setPlantlist(plants)}}
+        buttonStyle={styles.buttonStyle}
+      />
       </View>
     </>
   )

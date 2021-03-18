@@ -7,26 +7,18 @@ import { styles } from '../style/style'
 
 const SinglePlant = ({ navigation, route }) => {
 
-  const plotData = [ // Unix time x, y in percentage
-    { x: 1615973462 - 7*4 * 3600, y: 50 },
-    { x: 1615973462 - 6*4 * 3600, y: 40 },
-    { x: 1615973462 - 5*4 * 3600, y: 32 },
-    { x: 1615973462 - 4*4 * 3600, y: 15 },
-    { x: 1615973462 - 3*4 * 3600, y: 50 },
-    { x: 1615973462 - 2*4 * 3600, y: 35 },
-    { x: 1615973462 - 4 * 3600, y: 37 },
-    { x: 1615973462, y: 26 }
-  ].map( (point) => {
+  // Unix time x, y in percentage
+  const plotData = route.params.plant.sensorData.map( (point) => {
     return { ...point, label: `${point.y}%` }
   })
 
   const plantInfo = {
-    'name': route.params.name,
-    'species': 'Rahapuu', // ehkä nimen perusteella hakee AsyncStoragesta?
-    'moisture': '72',
+    'name': route.params.plant.name,
+    'species': route.params.plant.species, // ehkä nimen perusteella hakee AsyncStoragesta?
+    'moisture': route.params.plant.state,
   }
   const sensorInfo = {
-    'serialNumber': '123',
+    'serialNumber': route.params.plant.sensor,
     'battery': '27%'
   }
 
