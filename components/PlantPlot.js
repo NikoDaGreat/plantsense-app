@@ -14,8 +14,12 @@ import { colors } from '../style/style'
 
 const PlantPlot = ({ data }) => {
 
-  const lowerLimit = [ { x: Math.min(...data.map(xy => xy.x)), y: 10 }, { x: Math.max(...data.map(xy => xy.x)) + 4 * 3600, y: 10 } ]
-  const upperLimit = [ { x: Math.min(...data.map(xy => xy.x)), y: 60 }, { x: Math.max(...data.map(xy => xy.x)) + 4 * 3600, y: 60 } ]
+  //const lowerLimit = [ { x: Math.min(...data.map(xy => xy.x)), y: 10 }, { x: Math.max(...data.map(xy => xy.x)) + 4 * 3600, y: 10 } ]
+  //const upperLimit = [ { x: Math.min(...data.map(xy => xy.x)), y: 60 }, { x: Math.max(...data.map(xy => xy.x)) + 4 * 3600, y: 60 } ]
+  const minX = Math.min(...data.map(xy => xy.x))
+  const maxX = Math.max(...data.map(xy => xy.x))
+  const lowerLimit = [ { x: minX, y: 10 }, { x: maxX + (maxX - minX) * 0.2, y: 10 } ]
+  const upperLimit = [ { x: minX, y: 60 }, { x: maxX + (maxX - minX) * 0.2, y: 60 } ]
   const limits = [lowerLimit, upperLimit]
 
   const GivenVictoryContainers = createContainer('zoom', 'voronoi')

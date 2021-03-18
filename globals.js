@@ -1,5 +1,5 @@
 global.plantToAdd = {};
 global.plants = [];
-global.defaultNotificationLimit = 50;
-global.defaultPlantState = 100;
-global.defaultPlantStateRate = 0.1
+global.defaultNotificationLimit = 20;
+global.defaultPlantState = 58;
+global.defaultPlantStateRate = 10 // seconds per one percentage point drop

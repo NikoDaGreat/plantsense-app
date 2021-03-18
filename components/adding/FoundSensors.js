@@ -37,7 +37,7 @@ const FoundSensors = ({ navigation }) => {
     // tallenna sensori käytetyksi ja siirry kasvin valintaan
     console.log(`${sensor.name} Pressed`)
     plantToAdd.sensor = sensor.name
-    plantToAdd.state = defaultPlantState
+    plantToAdd.state = defaultPlantState + (Math.random() * 10 - 5)
     plantToAdd.notificationLimit = defaultNotificationLimit
     const initialTime = Math.floor(new Date().getTime() / 1000)
     plantToAdd.initTime = initialTime 
@@ -75,7 +75,7 @@ const FoundSensors = ({ navigation }) => {
 
                   <Text style={styles.smallBoldText}>
                     {e.name}{'\n'}
-                    {Math.floor(Math.random() * 41) + 60}%
+                    {100}%
                     <Icon
                       type='font-awesome'
                       name='battery'

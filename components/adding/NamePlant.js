@@ -4,16 +4,8 @@ import { Button } from 'react-native-elements'
 import { styles } from '../../style/style'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import '../../globals.js'
+import { storeData } from '../../storage.js'
 
-const storeData = async (key, value) => {
-  try {
-    const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem(key, jsonValue);
-    console.log('stored ' + key);
-  } catch (e) {
-    // error
-  }
-}
 
 const NamePlant = ({ navigation }) => {
 

@@ -1,12 +1,12 @@
 import React from 'react'
-import { Text, View, Button } from 'react-native'
-import { Card } from 'react-native-elements'
+import { Text, View } from 'react-native'
+import { Card, Button} from 'react-native-elements'
 import PlantPlot from './PlantPlot'
 import { styles } from '../style/style'
 
 function waterPlant(plant) {
   plant.state = defaultPlantState
-  plant.notificationLimit = defaultNotificationLimit
+  plant.notificationLimit = defaultNotificationLimit + (Math.random() * 10 - 5)
   plant.initTime = Math.floor(new Date().getTime() / 1000)
   //storeData(plant.name, plant)
   console.log(plant.name + ', kosteus ' + plant.state)
@@ -26,7 +26,7 @@ const SinglePlant = ({ navigation, route }) => {
   }
   const sensorInfo = {
     'serialNumber': route.params.plant.sensor,
-    'battery': '27%'
+    'battery': '100 %'
   }
 
   return (
@@ -39,7 +39,7 @@ const SinglePlant = ({ navigation, route }) => {
         Laji: {plantInfo.species}
       </Text>
       <Text style={styles.plantText}>
-        Kosteus: {plantInfo.moisture}
+        Kosteus: {plantInfo.moisture} %
       </Text>
       <Text style={styles.plantText}>
         Yhdistetty sensori: {sensorInfo.serialNumber}
