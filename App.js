@@ -46,11 +46,12 @@ function waterAll() {
   })
 }
 
+// Update plant states when app is active
 setInterval( () => {
   updatePlantStates();
-}, 10000)
+}, updateRate)
 
-// Background functions
+// Set up background tasks and register them
 const taskName = 'test-background-fetch';
 
 async function registerTask() {
@@ -71,21 +72,12 @@ async function registerTask() {
 registerTask();
 
 // Set-up app data
-//console.log('Main stored: ')
-//getAllKeys()
-
-//clearAll()
 getAllPlantsFromStorage()
-
 
 
 const HomeScreen = ({ navigation }) => {
   const [plantlist, setPlantlist] = useState(plants)
 
-  //const plants = [];
-  //console.log('Main: ' + plants)
-
-  // Update HomeScreen on focus
   useEffect(
     () => {
       const unsubscribe = navigation.addListener('focus', () => {
@@ -100,7 +92,7 @@ const HomeScreen = ({ navigation }) => {
     () => {
       const intervalId = setInterval(() => {
         setPlantlist(plants)
-      }, 10000);
+      }, 1000);
       return () => clearInterval(intervalId);
     }, 
     [navigation],
@@ -147,6 +139,7 @@ const HomeScreen = ({ navigation }) => {
 
 
 export default function App() {
+  // Notification stuff
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
@@ -219,6 +212,7 @@ export default function App() {
   )
 }
 
+// Notification functions
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
