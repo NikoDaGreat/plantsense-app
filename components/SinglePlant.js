@@ -1,9 +1,16 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, Button } from 'react-native'
 import { Card } from 'react-native-elements'
 import PlantPlot from './PlantPlot'
 import { styles } from '../style/style'
 
+function waterPlant(plant) {
+  plant.state = defaultPlantState
+  plant.notificationLimit = defaultNotificationLimit
+  plant.initTime = Math.floor(new Date().getTime() / 1000)
+  //storeData(plant.name, plant)
+  console.log(plant.name + ', kosteus ' + plant.state)
+}
 
 const SinglePlant = ({ navigation, route }) => {
 
@@ -40,6 +47,11 @@ const SinglePlant = ({ navigation, route }) => {
       <Text style={styles.plantText}>
         Sensorin akku: {sensorInfo.battery}
       </Text>
+      <Button
+        title="Kastele"
+        onPress={() => waterPlant(route.params.plant)}
+        buttonStyle={styles.buttonStyle}
+      />
       <View>
         <PlantPlot data={plotData}/>
       </View>

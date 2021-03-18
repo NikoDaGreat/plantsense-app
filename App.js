@@ -87,16 +87,17 @@ const p2 = {'name': 'PJ', 'species': 'Peikonlehti', 'state': 0 };
 
 
 function updatePlantStates() {
-  plants.map(function(p) {
+  plants = plants.map(function(p) {
     const currentTime = Math.floor(new Date().getTime() / 1000)
     p.state = Math.max(0, defaultPlantState - defaultPlantStateRate * (currentTime - p.initTime))
     console.log(p.name + ', kosteus ' + p.state)
     if(p.state <= p.notificationLimit && p.state > 0) {
       schedulePushNotification(p.name + ' tarvitsee vettä (mullan kosteus ' + p.state + ')')
-      p.notificationLimit -= Math.max(0, p.notificationLimit - 10)
+      p.notificationLimit = Math.max(0, p.notificationLimit - 10)
     }
     p.sensorData.push({ x: currentTime, y: p.state })
     storeData(p.name, p)
+    return p
   })
 }
 
@@ -110,7 +111,6 @@ function waterAll() {
     console.log(p.name + ', kosteus ' + p.state)
   })
 }
-
 
 setInterval( () => {
   updatePlantStates();
@@ -151,10 +151,31 @@ const HomeScreen = ({ navigation }) => {
   //const plants = [];
   //console.log('Main: ' + plants)
 
+  // Update HomeScreen on focus
+  useEffect(
+    () => {
+      const unsubscribe = navigation.addListener('focus', () => {
+        setPlantlist(plants)
+        });
+        return unsubscribe;
+    }, 
+    [navigation],
+  );
+
+  useEffect(
+    () => {
+      const intervalId = setInterval(() => {
+        setPlantlist(plants)
+      }, 10000);
+      return () => clearInterval(intervalId);
+    }, 
+    [navigation],
+  );
+
   return (
     <>
       <View>
-        {plants.map(function(d){
+        {plantlist.map(function(d){
           return (
             <TouchableOpacity key={d.name}
               onPress={ () => navigation.navigate('Yksittäinen kasvi', {
