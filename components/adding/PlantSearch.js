@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Text, View, FlatList } from 'react-native'
 import { SearchBar } from 'react-native-elements'
-// import axios from 'axios'
 import { styles } from '../../style/style'
 import '../../globals.js'
 
@@ -15,20 +14,8 @@ const PlantSearch = ({ navigation }) => {
     data: plantList,
     filter: '',
     name: '',
-    controller: new AbortController()
+    controller: new AbortController(),
   })
-
-  // useEffect(() => {
-  //   const controller = new AbortController()
-  //   const signal = controller.signal
-  //   setFetchRes('fetch request created')
-  //   hitApi(signal).then((res) => {
-  //     setFetchRes(res)
-  //   })
-  //   //cleanup function
-  //   return () => {controller.abort()}
-  // }, [fetchClick])
-
 
   const handleSelectPlant = ( plant ) => {
     // tallenna kasvi käytetyksi ja kysy lempinimeä
@@ -52,12 +39,11 @@ const PlantSearch = ({ navigation }) => {
   }
 
   const searchFilterFunction = async ( text ) => {
-    // REST API :Dd
     // Abort previous fetches and null abort state
-    //console.log('controller:', state.controller)
-    state.controller.abort()
-
-    await setState({
+    await state.controller.abort()
+    setState({
+      ...state,
+      filter: text,
       controller: new AbortController(),
     })
 
@@ -67,14 +53,15 @@ const PlantSearch = ({ navigation }) => {
       .then((data) => {
         const newData = data.results.map( e => e.prefLabel )
         setState({
-          data: newData,
+          ...state,
+          filter: text,
+          data: [...new Set(newData)], // unique labels
         })
       })
       .catch((error) => {
         console.error(error)
       })
 
-    // const newData = plantList.filter(e => e.toLowerCase().includes(text.toLowerCase()))
   }
 
   return (
@@ -91,7 +78,8 @@ const PlantSearch = ({ navigation }) => {
             inputContainerStyle={{ backgroundColor: 'white', borderWidth: 1, borderRadius: 5 }}
             placeholder="Kirjoita tähän"
             round
-            onChangeText={ (text) => { setState({
+            onChangeText={ async (text) => { await setState({
+              ...state,
               filter: text,
             })
             searchFilterFunction(text) }}
