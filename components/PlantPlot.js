@@ -64,7 +64,7 @@ const PlantPlot = ({ data }) => {
                 strokeWidth: 4.5
               }
             }}
-            interpolation='natural'
+            interpolation='catmullRom'
           />
           <VictoryScatter
             symbol='diamond'

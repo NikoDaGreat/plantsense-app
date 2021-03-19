@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, Alert, Text, TextInput, Switch } from 'react-native'
-import { Button } from 'react-native-elements'
+import { Button, Card } from 'react-native-elements'
 import { clearAll } from '../storage.js'
 import { styles } from '../style/style'
 
@@ -46,14 +46,23 @@ const Settings = ({ navigation }) => {
           onPress={() => { handleClearAll() }}
           buttonStyle={styles.buttonStyle}
         />
-        <Text style={styles.baseText}>Pikatestaus (ilmoitus n. 40 min kastelusta) </Text>
-        <Switch
-          trackColor={{ false: "#767577", true: "#81b0ff" }}
-          thumbColor={state.isEnabled ? "#f5dd4b" : "#f4f3f4"}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={state.isEnabled}
-        />
+        <Card containerStyle={{}} wrapperStyle={{}} >
+          <Card.Title>Pikatestaus (ilmoitus n. 40 min kastelusta)</Card.Title>
+          <Card.Divider />
+          <View
+            style={{
+              position: 'relative',
+              alignItems: 'center'
+            }} >
+            <Switch
+              trackColor={{ false: '#767577', true: '#81b0ff' }}
+              thumbColor={state.isEnabled ? '#f5dd4b' : '#f4f3f4'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch}
+              value={state.isEnabled}
+            />
+          </View>
+        </Card>
       </View>
     </>
   )

@@ -207,7 +207,18 @@ export default function App() {
                 fontWeight: 'bold',
               },
             }}/>
-          <RootStack.Screen name="Yksittäinen kasvi" component={SinglePlant} />
+          <RootStack.Screen
+            name="Yksittäinen kasvi"
+            component={SinglePlant}
+            options={{
+              headerStyle: {
+                backgroundColor: colors.light,
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }} />
           <RootStack.Screen
             name="Lisää kasvi"
             component={AddPlant}
