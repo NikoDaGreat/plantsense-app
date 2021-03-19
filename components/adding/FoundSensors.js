@@ -37,12 +37,12 @@ const FoundSensors = ({ navigation }) => {
     // tallenna sensori käytetyksi ja siirry kasvin valintaan
     console.log(`${sensor.name} Pressed`)
     plantToAdd.sensor = sensor.name
-    plantToAdd.state = Math.round(defaultPlantState + (Math.random() * 10 - 5))
+    plantToAdd.state = Math.round(defaultPlantState + (Math.random()-1) * 5)
     plantToAdd.notificationLimit = defaultNotificationLimit
     const initialTime = Math.floor(new Date().getTime() / 1000)
-    plantToAdd.initTime = initialTime
+    plantToAdd.prevTime = initialTime
     plantToAdd.sensorData = []
-    plantToAdd.sensorData.push({ x: initialTime, y: defaultPlantState })
+    //plantToAdd.sensorData.push({ x: plantToAdd.prevTime, y: plantToAdd.state })
     console.log('Modified: ' + JSON.stringify(plantToAdd))
     navigation.push('Kasvihaku')
   }
