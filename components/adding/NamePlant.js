@@ -25,7 +25,7 @@ const NamePlant = ({ navigation }) => {
 
     Alert.alert(
       'Onnistui!',
-      `Tallennettu ${state.name} onnistuneesti 💪. Kasvi ilmestyy listaan ensimmäisen mittauksen tullessa sensorista (n. 10s).`,
+      `Tallennettu ${state.name} onnistuneesti 💪. Kasvi ilmestyy listaan ensimmäisen mittauksen tullessa sensorista (saattaa kestää hetki).`,
       [
         { text: 'Jiihaa!', onPress: () => {console.log('onnistuttu')} }
       ]
