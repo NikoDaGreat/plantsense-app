@@ -5,7 +5,7 @@ import PlantPlot from './PlantPlot'
 import { styles } from '../style/style'
 
 function waterPlant(plant) {
-  plant.state = defaultPlantState + (Math.random() * 10 - 5)
+  plant.state = Math.flooe(defaultPlantState + (Math.random() * 10 - 5))
   plant.notificationLimit = defaultNotificationLimit
   plant.initTime = Math.floor(new Date().getTime() / 1000)
   //storeData(plant.name, plant)

@@ -23,7 +23,7 @@ function updatePlantStates() {
   plants = plants.map(function(p) {
     const currentTime = Math.floor(new Date().getTime() / 1000)
     const newState = defaultPlantState -
-      ((1/defaultPlantStateRate) * (currentTime - p.initTime) + (Math.random() * 0.5))
+      ((1/plantStateRate) * (currentTime - p.initTime) + (Math.random() * 0.5))
     p.state = Math.round(Math.max(0, newState))
     console.log(p.name + ', kosteus ' + p.state)
     if(p.state <= p.notificationLimit && p.state > 0) {
@@ -90,12 +90,12 @@ const HomeScreen = ({ navigation }) => {
     [navigation],
   )
 
-  // Update homescreen every 10 seconds
+  // Update homescreen every second
   useEffect(
     () => {
       const intervalId = setInterval(() => {
         setPlantlist(plants)
-      }, 10000)
+      }, 1000)
       return () => clearInterval(intervalId)
     },
     [navigation],
