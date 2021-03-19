@@ -3,7 +3,6 @@ import { View, Alert, Text, TextInput, Switch } from 'react-native'
 import { Button } from 'react-native-elements'
 import { clearAll } from '../storage.js'
 import { styles } from '../style/style'
-import { storeData } from '../storage.js'
 
 
 const Settings = ({ navigation }) => {
@@ -34,7 +33,7 @@ const Settings = ({ navigation }) => {
 
   const toggleSwitch = () => {
     speedMode = !speedMode
-    plantStateRate = speedMode ? 30 : 360
+    plantStateRate = speedMode ? 60 : 360
     console.log('speedMode ' + speedMode)
     setState( { isEnabled: !state.isEnabled })
   }
@@ -47,7 +46,7 @@ const Settings = ({ navigation }) => {
           onPress={() => { handleClearAll() }}
           buttonStyle={styles.buttonStyle}
         />
-        <Text style={styles.baseText}>Pikatestaus (ilmoitus n. 20 min välein) </Text>
+        <Text style={styles.baseText}>Pikatestaus (ilmoitus n. 40 min kastelusta) </Text>
         <Switch
           trackColor={{ false: "#767577", true: "#81b0ff" }}
           thumbColor={state.isEnabled ? "#f5dd4b" : "#f4f3f4"}

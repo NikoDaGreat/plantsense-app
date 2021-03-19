@@ -22,9 +22,10 @@ import Settings from './components/Settings'
 function updatePlantStates() {
   plants = plants.map(function(p) {
     const currentTime = Math.floor(new Date().getTime() / 1000)
-    const newState = defaultPlantState -
-      ((1/plantStateRate) * (currentTime - p.initTime) + (Math.random() * 0.5))
+    const newState = p.state -
+      ((1/plantStateRate) * (currentTime - p.prevTime) + (Math.random() * 0.5))
     p.state = Math.round(Math.max(0, newState))
+    p.prevTime = currentTime
     console.log(p.name + ', kosteus ' + p.state)
     if(p.state <= p.notificationLimit && p.state > 0) {
       schedulePushNotification(p.name + ' tarvitsee vettä (Kosteus: ' + p.state + '%)')
@@ -83,6 +84,7 @@ const HomeScreen = ({ navigation }) => {
   useEffect(
     () => {
       const unsubscribe = navigation.addListener('focus', () => {
+        updatePlantStates()
         setPlantlist(plants)
       })
       return unsubscribe
