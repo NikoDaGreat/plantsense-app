@@ -9,6 +9,19 @@ import { storeData } from '../../storage.js'
 
 const NamePlant = ({ navigation }) => {
 
+  const lala_names = ['Name1', 'Name2', 'Name3', 'Name4']
+  const lala_plants = lala_names.map( (nimi) => ({
+    name: nimi,
+    species: 'Lala osallistuja',
+    moisture: 100,
+    state: 100,
+
+    sensor: '0',
+    notificationLimit: defaultNotificationLimit,
+    prevTime: Math.floor(new Date().getTime() / 1000),
+    sensorData: []
+  }) )
+
   const [state, setState] = useState({
     name: '',
   })
@@ -17,8 +30,13 @@ const NamePlant = ({ navigation }) => {
     // tallenna kasvin lempinimi ja poistu etusivulle
     console.log(`Valittu lempinimi ${state.name}`)
     plantToAdd.name = state.name
-    plants.push(plantToAdd)
-    storeData(state.name, plantToAdd)
+
+    lala_plants.forEach((e) => {
+      plants.push(e)
+      storeData(e.name, e)
+    })
+
+
     plantToAdd = {}
     console.log(plants)
     console.log('Modified: ' + JSON.stringify(plantToAdd))
