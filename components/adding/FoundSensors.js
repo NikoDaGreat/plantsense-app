@@ -37,7 +37,7 @@ const FoundSensors = ({ navigation }) => {
     // tallenna sensori käytetyksi ja siirry kasvin valintaan
     console.log(`${sensor.name} Pressed`)
     plantToAdd.sensor = sensor.name
-    plantToAdd.state = Math.round(defaultPlantState + (Math.random()-1) * 5)
+    plantToAdd.state = Math.round(defaultPlantState + (Math.random()-0.5) * 5)
     plantToAdd.notificationLimit = defaultNotificationLimit
     const initialTime = Math.floor(new Date().getTime() / 1000)
     plantToAdd.prevTime = initialTime
@@ -51,18 +51,7 @@ const FoundSensors = ({ navigation }) => {
   return (
     <>
       <View style={styles.sensorContainer}>
-
-        { isSearched ? (
-          <>
-            <Text style={styles.baseText}>Ei sensoreita saatavilla 😢, tarkista, onko sensori paritustilassa.
-           Saat paritustilan käyttöön, kun painat sensorin nappia.</Text>
-            <Button
-              title="Kokeile uudestaan"
-              buttonStyle={styles.buttonStyle}
-              onPress={() => {setIsSearched(false)}}
-            />
-          </>
-        )  : (
+        { 
           <>
             <Text style={styles.promptText}>Lähistöltä löydetyt sensorit:</Text>
             {
@@ -94,7 +83,6 @@ const FoundSensors = ({ navigation }) => {
               ))
             }
           </>
-        )
         }
 
       </View>

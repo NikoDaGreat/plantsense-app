@@ -4,8 +4,8 @@ import { Card, Button } from 'react-native-elements'
 import PlantPlot from './PlantPlot'
 import { styles } from '../style/style'
 
-function waterPlant(plant) {
-  plant.state = Math.floor(defaultPlantState + (Math.random()-1) * 5)
+export function waterPlant(plant) {
+  plant.state = Math.floor(defaultPlantState + (Math.random()-0.5) * 5)
   plant.notificationLimit = defaultNotificationLimit
   plant.prevTime = Math.floor(new Date().getTime() / 1000)
   console.log(plant.name + ', kosteus ' + plant.state)
@@ -54,11 +54,13 @@ const SinglePlant = ({ navigation, route }) => {
           <View>
             <PlantPlot data={plotData}/>
           </View>
+          {/*
           <Button
             title="Kuittaa kastelu💧"
             onPress={() => waterPlant(route.params.plant)}
             buttonStyle={styles.buttonStyle}
           />
+        */}
         </Card>
       </ScrollView>
     </SafeAreaView>

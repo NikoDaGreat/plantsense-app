@@ -3,6 +3,7 @@ import { View, Alert, Text, TextInput, Switch } from 'react-native'
 import { Button, Card } from 'react-native-elements'
 import { clearAll } from '../storage.js'
 import { styles } from '../style/style'
+import { waterPlant } from './SinglePlant.js'
 
 
 const Settings = ({ navigation }) => {
@@ -28,8 +29,21 @@ const Settings = ({ navigation }) => {
         } }
       ]
     )
-
   }
+
+  const waterAll = () => {
+    plants.map(function(p) {
+      waterPlant(p);
+    })
+    Alert.alert(
+      'Asetukset',
+      'Kaikki kasvit kasteltu',
+      [
+        { text: 'Ok' }
+      ]
+    )
+  }
+
 
   const toggleSwitch = () => {
     speedMode = !speedMode
@@ -62,6 +76,12 @@ const Settings = ({ navigation }) => {
         <Button
           title="Poista kaikki kasvit"
           onPress={() => { handleClearAll() }}
+          buttonStyle={styles.buttonStyle}
+        />
+        <View style={{ marginTop: 10 }} />
+        <Button
+          title="Kastele kaikki"
+          onPress={() => { waterAll() }}
           buttonStyle={styles.buttonStyle}
         />
       {/*
