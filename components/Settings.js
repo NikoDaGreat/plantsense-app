@@ -38,6 +38,24 @@ const Settings = ({ navigation }) => {
     setState( { isEnabled: !state.isEnabled })
   }
 
+  const saveRate = () => {
+    plantStateRate = state.rate
+    Alert.alert(
+      'Asetukset',
+      'Kuivumisnopeus tallennettu',
+      [
+        { text: 'Ok' }
+      ]
+    )
+  }
+
+  const onRateTextChange = (text) => {
+    setState( {
+      rate: parseInt(text) ? parseInt(text) : ''
+    })
+  }
+
+
   return (
     <>
       <View style={{ marginTop: 10, padding: 15 }}>
@@ -46,6 +64,7 @@ const Settings = ({ navigation }) => {
           onPress={() => { handleClearAll() }}
           buttonStyle={styles.buttonStyle}
         />
+      {/*
         <Card containerStyle={{}} wrapperStyle={{}} >
           <Card.Title>Pikatestaus (ilmoitus n. 40 min kastelusta)</Card.Title>
           <Card.Divider />
@@ -61,6 +80,25 @@ const Settings = ({ navigation }) => {
               onValueChange={toggleSwitch}
               value={state.isEnabled}
             />
+          </View>
+        </Card>
+      */}
+        <Card>
+          <View>
+          <Button
+            onPress={saveRate}
+            title='Aseta kuivumisnopeus'
+            buttonStyle={styles.buttonStyle}
+          />
+          <Text style={{textAlign:'center'}}>Sekuntia per prosenttiyksikön kuivuminen </Text>
+          <TextInput 
+            keyboardType='numeric'
+            placeholder=''
+            onChangeText={onRateTextChange}
+            value={state.rate.toString()}
+            style={styles.textInput}
+            underlineColorAndroid='rgb(52,174,113)'
+          />
           </View>
         </Card>
       </View>
