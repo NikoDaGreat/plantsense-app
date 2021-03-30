@@ -61,12 +61,10 @@ const Settings = ({ navigation }) => {
 
   const onMockPlantNameChange = (text) => {
     setMockPlantName(text)
-    console.log(mockPlantName + ' ' + mockPlantSpecies + ' ' + rate)
   }
 
   const onMockPlantSpeciesChange = (text) => {
     setMockPlantSpecies(text)
-    console.log(mockPlantName + ' ' + mockPlantSpecies)
   }
 
   const saveMockPlant = () => {
@@ -80,6 +78,17 @@ const Settings = ({ navigation }) => {
     Alert.alert(
       'Asetukset',
       'Tekokasvi tallennettu',
+      [
+        { text: 'Ok' }
+      ]
+    )
+  }
+
+  const deleteMockPlants = () => {
+    mockPlants = []
+    Alert.alert(
+      'Asetukset',
+      'Tekokasvit poistettu',
       [
         { text: 'Ok' }
       ]
@@ -159,6 +168,7 @@ const Settings = ({ navigation }) => {
               title='Tallenna tekokasvi'
               buttonStyle={styles.buttonStyle}
             />
+            <Text style={{textAlign:'center'}}>Luo kasvi, jolla on staattinen data valmiina</Text>
             <TextInput 
               //keyboardType='numeric'
               placeholder='Tekokasvin nimi'
@@ -182,7 +192,7 @@ const Settings = ({ navigation }) => {
             />
             <Button
               title="Poista kaikki tekokasvit"
-              onPress={() => { mockPlants = [] }}
+              onPress={deleteMockPlants}
               buttonStyle={styles.buttonStyle}
             />
           </View>
