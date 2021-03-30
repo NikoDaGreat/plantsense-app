@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Alert, Text, TextInput, Switch } from 'react-native'
+import { View, Alert, Text, TextInput, Switch, ScrollView } from 'react-native'
 import { Button, Card } from 'react-native-elements'
 import { clearAll } from '../storage.js'
 import { styles } from '../style/style'
@@ -11,9 +11,7 @@ const Settings = ({ navigation }) => {
   const [rate, setRate] = useState(plantStateRate)
   const [mockPlantName, setMockPlantName] = useState('')
   const [mockPlantSpecies, setMockPlantSpecies] = useState('')
-  const [mockPlantDays, setMockPlantDays] = useState(5)
-  const [mockPlantMeasurementFreq, setMockPlantMeasurementFreq] = useState(7200)
-  const [mockPlantDaysToDry, setMockPlantDaysToDry] = useState(2)
+  const [mockPlantNotifications, setMockPlantNotifications] = useState(5)
 
   const handleClearAll = () => {
     Alert.alert(
@@ -76,8 +74,8 @@ const Settings = ({ navigation }) => {
     p.name = mockPlantName
     p.species = mockPlantSpecies
     p.sensor = '123'
-    p.state = defaultPlantState + (Math.random() - 0.5) * 10
-    p.sensorData = createMockData(p, 10, 10*3600, 2)
+    p.state = 0
+    p.sensorData = createMockData(p, 5, mockPlantNotifications)
     mockPlants.push(p)
     Alert.alert(
       'Asetukset',
@@ -94,20 +92,25 @@ const Settings = ({ navigation }) => {
     measurementFrequency: how often measurements are made, in seconds
     daysToDry: how many days it takes the plant to dry after watering
   */
-  const createMockData = (p, days, measurementFrequency, daysToDry) => {
+  const createMockData = (p, days, notifications) => {
     let date = new Date(Date.UTC('2021', '02', '30', '13', '15', '00'))
     let initTime = Math.floor(date.getTime()/1000)
     let plist = []
     let limit = 20 - (Math.random() * 20)
-    const measurementsInInterval = (daysToDry * 24 * 3600) / measurementFrequency
+
+    const nMeasurements = 24
+    //const measurementsInInterval = (daysToDry * 24 * 3600) / measurementFrequency
     const daysInSeconds = days * 24 * 60 * 60
+    const measurementFrequency = Math.floor(daysInSeconds/nMeasurements)
+
     for (var t = 0; t < daysInSeconds; t += measurementFrequency) {
       let currentTime = initTime + t
       if (p.state < limit) { 
         p.state = defaultPlantState + (Math.random() - 0.5) * 10
         limit = 20 - (Math.random() * 20)
       } else {
-        let newState = p.state * Math.pow(20/60,1/(measurementsInInterval))
+        let stateMultiplier = Math.pow(10/60,1/(nMeasurements/notifications))
+        let newState = p.state * stateMultiplier
         p.state = Math.max(0, newState)
       }
       plist.push({x: currentTime, y: p.state})
@@ -118,7 +121,7 @@ const Settings = ({ navigation }) => {
 
 
   return (
-    <>
+    <ScrollView>
       <View style={{ marginTop: 10, padding: 15 }}>
         <Button
           title="Poista kaikki kasvit"
@@ -131,25 +134,6 @@ const Settings = ({ navigation }) => {
           onPress={() => { waterAll() }}
           buttonStyle={styles.buttonStyle}
         />
-      {/*
-        <Card containerStyle={{}} wrapperStyle={{}} >
-          <Card.Title>Pikatestaus (ilmoitus n. 40 min kastelusta)</Card.Title>
-          <Card.Divider />
-          <View
-            style={{
-              position: 'relative',
-              alignItems: 'center'
-            }} >
-            <Switch
-              trackColor={{ false: '#767577', true: '#81b0ff' }}
-              thumbColor={state.isEnabled ? '#f5dd4b' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={state.isEnabled}
-            />
-          </View>
-        </Card>
-      */}
         <Card>
           <View>
             <Button
@@ -179,7 +163,6 @@ const Settings = ({ navigation }) => {
               //keyboardType='numeric'
               placeholder='Tekokasvin nimi'
               onChangeText={onMockPlantNameChange}
-              //value={state.mockPlantName}
               style={styles.textInput}
               underlineColorAndroid='rgb(52,174,113)'
             />
@@ -187,14 +170,25 @@ const Settings = ({ navigation }) => {
               //keyboardType='numeric'
               placeholder='Tekokasvin laji'
               onChangeText={onMockPlantSpeciesChange}
-              //value={state.mockPlantSpecies}
               style={styles.textInput}
               underlineColorAndroid='rgb(52,174,113)'
+            />
+            <TextInput 
+              keyboardType='numeric'
+              placeholder='Notifikaatiot (kpl)'
+              onChangeText={(text) => setMockPlantNotifications(parseInt(text) ? parseInt(text) : NaN) }
+              style={styles.textInput}
+              underlineColorAndroid='rgb(52,174,113)'
+            />
+            <Button
+              title="Poista kaikki tekokasvit"
+              onPress={() => { mockPlants = [] }}
+              buttonStyle={styles.buttonStyle}
             />
           </View>
         </Card>
       </View>
-    </>
+    </ScrollView>
   )
 }
 
