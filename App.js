@@ -24,11 +24,11 @@ function updatePlantStates() {
     const currentTime = Math.floor(new Date().getTime() / 1000)
     const newState = p.state -
       ((1/plantStateRate) * (currentTime - p.prevTime) + (Math.random() * 0.5))
-    p.state = Math.round(Math.max(0, newState))
+    p.state = Math.max(0, newState)
     p.prevTime = currentTime
     console.log(p.name + ', kosteus ' + p.state)
     if(p.state <= p.notificationLimit && p.state > 0) {
-      schedulePushNotification(p.name + ' tarvitsee vettä (Kosteus: ' + p.state + '%)')
+      schedulePushNotification(p.name + ' tarvitsee vettä (Kosteus: ' + Math.round(p.state) + '%)')
       p.notificationLimit = Math.max(0, p.notificationLimit - 10)
     }
     p.sensorData.push({ x: currentTime, y: p.state })
@@ -78,14 +78,14 @@ getAllPlantsFromStorage()
 
 
 const HomeScreen = ({ navigation }) => {
-  const [plantlist, setPlantlist] = useState(plants)
+  const [plantlist, setPlantlist] = useState(plants.concat(mockPlants))
 
   // Tried to make homescreen update when returned to
   useEffect(
     () => {
       const unsubscribe = navigation.addListener('focus', () => {
         updatePlantStates()
-        setPlantlist(plants)
+        setPlantlist(plants.concat(mockPlants))
       })
       return unsubscribe
     },
@@ -96,7 +96,7 @@ const HomeScreen = ({ navigation }) => {
   useEffect(
     () => {
       const intervalId = setInterval(() => {
-        setPlantlist(plants)
+        setPlantlist(plants.concat(mockPlants))
       }, 1000)
       return () => clearInterval(intervalId)
     },
@@ -122,7 +122,7 @@ const HomeScreen = ({ navigation }) => {
                       alignItems: 'center'
                     }} >
                     <Text>
-                    Kosteus {d.state} %
+                    Kosteus {Math.round(d.state)} %
                       {parseInt(d.state) > 25 ? '' : parseInt(d.state) > 10 ? ',  Tarvitsee kastelua' : ',  Kastele nyt!'}
                     </Text>
                   </View>

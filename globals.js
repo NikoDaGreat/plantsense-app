@@ -1,5 +1,6 @@
 global.plantToAdd = {}
 global.plants = []
+global.mockPlants = []
 global.defaultNotificationLimit = 20
 global.defaultPlantState = 58
 global.plantStateRate = 360 // seconds per one percentage point drop

@@ -15,7 +15,7 @@ const SinglePlant = ({ navigation, route }) => {
 
   // Unix time x, y in percentage
   const plotData = route.params.plant.sensorData.map( (point) => {
-    return { ...point, label: `${point.y}%` }
+    return { ...point, label: `${Math.round(point.y)}%` }
   })
 
   const plantInfo = {
@@ -40,7 +40,7 @@ const SinglePlant = ({ navigation, route }) => {
         Laji: {plantInfo.species}
           </Text>
           <Text style={styles.plantText}>
-        Kosteus: {plantInfo.moisture} %
+        Kosteus: {Math.round(plantInfo.moisture)} %
             <Text style={{ fontWeight: 'bold' }}>
               {parseInt(plantInfo.moisture) > 25 ? '' : parseInt(plantInfo.moisture) > 10 ? '  Tarvitsee kastelua' : '  Kastele nyt!'}
             </Text>
