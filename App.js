@@ -103,18 +103,6 @@ const HomeScreen = ({ navigation }) => {
     [navigation],
   )
 
-  const onShare = async () => {
-    try {
-      await Share.share({
-        message:
-          'Hei! Kasvieni tilan voi tarkistaa osoitteesta http://plantsense.fi/84675f2baf7',
-        dialogTitle: 'Kasvijako'
-      })
-    } catch (error) {
-      alert(error.message)
-    }
-  }
-
   return (
     <SafeAreaView>
       <ScrollView>
@@ -153,20 +141,6 @@ const HomeScreen = ({ navigation }) => {
             }
             title="  Lisää kasvi"
             onPress={() => navigation.navigate('Lisää kasvi', { screen: 'Löydetyt sensorit' })}
-            buttonStyle={styles.buttonStyle}
-          />
-        </View>
-        <View style={{ marginTop: -10, padding: 15 }}>
-          <Button
-            icon={
-              <Icon
-                name="share-alt"
-                size={17}
-                color="white"
-              />
-            }
-            title="  Jaa kasvit"
-            onPress={() => { onShare() }}
             buttonStyle={styles.buttonStyle}
           />
         </View>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { View, Alert, Text, TextInput, Switch } from 'react-native'
+import { View, Alert, Text, TextInput, Switch, Share } from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome'
 import { Button, Card } from 'react-native-elements'
 import { clearAll } from '../storage.js'
 import { styles } from '../style/style'
@@ -38,31 +39,48 @@ const Settings = ({ navigation }) => {
     setState( { isEnabled: !state.isEnabled })
   }
 
+  const onShare = async () => {
+    try {
+      await Share.share({
+        message:
+        'Hei! Kasvieni tilan voi tarkistaa osoitteesta http://plantsense.fi/84675f2baf7',
+        dialogTitle: 'Kasvijako'
+      })
+    } catch (error) {
+      alert(error.message)
+    }
+  }
+
+
   return (
     <>
       <View style={{ marginTop: 10, padding: 15 }}>
         <Button
-          title="Poista kaikki kasvit"
+          icon={
+            <Icon
+              name="trash"
+              size={17}
+              color="white"
+            />
+          }
+          title="  Poista kaikki kasvit"
           onPress={() => { handleClearAll() }}
           buttonStyle={styles.buttonStyle}
         />
-        <Card containerStyle={{}} wrapperStyle={{}} >
-          <Card.Title>Pikatestaus (ilmoitus n. 40 min kastelusta)</Card.Title>
-          <Card.Divider />
-          <View
-            style={{
-              position: 'relative',
-              alignItems: 'center'
-            }} >
-            <Switch
-              trackColor={{ false: '#767577', true: '#81b0ff' }}
-              thumbColor={state.isEnabled ? '#f5dd4b' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={state.isEnabled}
+      </View>
+      <View style={{ marginTop: -10, padding: 15 }}>
+        <Button
+          icon={
+            <Icon
+              name="share-alt"
+              size={17}
+              color="white"
             />
-          </View>
-        </Card>
+          }
+          title="  Jaa kasvit"
+          onPress={() => { onShare() }}
+          buttonStyle={styles.buttonStyle}
+        />
       </View>
     </>
   )
